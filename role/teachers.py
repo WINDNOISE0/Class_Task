@@ -1,49 +1,44 @@
-import datetime
-import json
 from random import randint
 
-from person.person import Persons
-from school.action import Documents
+from role.person import Person
+from school.document import Document
 
+class Teacher(Person, Document):
+    ROLE = "Teacher"
 
-class TeacherAction(Persons):
-    def __init__(self):
-        super().__init__()
-        self.document = Documents()
-        self.name = Persons.generate_name()
-        print(f'{self} создан с именем: {self.name}')
+    def __init__(self, first_name=None, last_name=None):
+        super().__init__(first_name, last_name)
+        self.rank_score = 0
+        self.print_create_log(self.ROLE)
 
     def __str__(self):
-        return f"Teacher"
+        return f"{self.first_name} {self.last_name}"
 
-    def random_grade(self):
-        rand_grade = randint(1,5)
+    def get_random_grade(self):
+        """Генерирует рандомную оценку"""
+        rand_grade = randint(self.MINIMUM_GRADE, self.MAXIMUM_GRADE)
         return rand_grade
 
-    def check_student_task(self):
-        print("Задание проверено ")
+    def give_score(
+            self,
+            student_data,
+            personal_journal,
+            task_id
+    ):
+        """
+        Получает школьный журанал и дневник ученика.
+        Добавляет туда информацию о задаче, дату и оценку
 
+        :return кортеж с дневником ученика и оценкой
+        """
 
-class Teacher(TeacherAction):
-    def start_teacher_day(self):
-        self.go_to_school(self.name, self)
-        self.to_greet_everyone()
+        grade = self.get_random_grade()
+        self.input_grade_main_journal(grade, student_data, task_id)
+        personal_journal = self.input_grade_personal_journal(grade,task_id, personal_journal)
 
-    def give_score(self, student_name, task):
-        with open("./journal.json", "r") as file:
-            journal_file = json.load(file)
-            print(f"{task} review started by {student_name}")
-            grade = self.random_grade()
-            now_date = datetime.datetime.now().strftime("%d %m %Y")
-            print(f"{task} review finished by {student_name}")
-            journal_file[f"Name: {student_name}, Date: {now_date}"] = f"Score: {grade}"
+        self.rank_score += 1
 
-            with open("./journal.json", "w") as file:
-                json.dump(journal_file, file, indent=2)
-
-            print(f"Оценка {grade} поставлена студенту {student_name}")
-
-
+        return personal_journal, grade
 
 
 

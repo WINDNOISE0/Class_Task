@@ -1,1 +1,16 @@
-{}
+{
+  "data": [
+    {
+      "task": "Task-447",
+      "student": "Valerie Clark",
+      "create_at": "19.12.2024",
+      "score": 1
+    },
+    {
+      "task": "Task-670",
+      "student": "Joseph Hernandez",
+      "create_at": "19.12.2024",
+      "score": 4
+    }
+  ]
+}
