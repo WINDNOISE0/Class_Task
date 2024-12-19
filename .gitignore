@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Configuration files
+*.env
+*.ini
+*.cfg
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDE-specific files
+.idea/
+.vscode/
+*.swp

@@ -1,32 +1,26 @@
-from person.person import Persons
-from school.action import Documents
+from role.person import Person
 
 
-class StudentsActions(Persons):
-    def __init__(self):
-        super().__init__()
-        self.document = Documents()
-        self.name = Persons.generate_name()
-        print(f'{self} создан с именем: {self.name}')
+class Student(Person):
+    ROLE = "Student"
+
+    def __init__(self, first_name=None, last_name=None):
+        super().__init__(first_name, last_name)
+        self.class_number = None
+        self.grades = {}
+        self.experience = 0
+        self.print_create_log(self.ROLE)
 
     def __str__(self):
-        return f"Student"
+        return f"{self.first_name} {self.last_name}"
 
-    def learning(self, task_id):
-        print(f"I finished {task_id}")
+    def learning(self, teacher, task_id):
+        """
+        Имитирует выполнение задачи. Передает номер задачи и дневник учителю. \
+        Получает оценку и заполненный дневник. Суммирует все оценки студента.
+        """
+        print(f"{self} finished {task_id}")
+        self.grades, grade = teacher.give_score(self, self.grades, task_id)
+        self.experience += grade
 
-    def get_task(self, task_id):
-        print(f'I got {task_id}')
 
-
-class Student(StudentsActions):
-    def start_school_day(self):
-        self.go_to_school(self.name, self)
-        self.to_greet_everyone()
-
-    def start_learning(self, task_id):
-        self.get_task(task_id)
-        self.learning(task_id)
-
-    def finish_school_day(self):
-        self.go_to_home(self.name, self)
