@@ -3,15 +3,16 @@ from role.student import Student
 from role.teacher import Teacher
 from school.document import Document
 
-school_journal = Document("Task-###", 1, 5, "./journal.json", "%d.%m.%Y")
-first_student = Student.create_random_person("Student")
-second_student = Student.create_simple_person("Christina", "Nelson", "Student")
+school_journal = Document("Task-###", "./journal.json", 1, 5)
+first_student = Student.create_random_person()
+second_student = Student("Christina", "Nelson")
+# Можешь воспользоваться faker, он упростит тебе генерацию тестовых данных
 
-first_teacher = Teacher.create_random_person("Teacher")
+first_teacher = Teacher.create_random_person()
 
-first_parent = Parent.create_random_person("Parent")
+first_parent = Parent.create_random_person()
 
-first_teacher.add_journal(school_journal)
+first_teacher.set_journal(school_journal)
 task = first_teacher.journal.get_number_task()
 
 first_parent.add_child(str(second_student))

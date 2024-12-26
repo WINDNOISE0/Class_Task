@@ -4,8 +4,8 @@ from role.person import Person
 class Student(Person):
     ROLE = "Student"
 
-    def __init__(self, first_name, last_name, role):
-        super().__init__(first_name, last_name, role)
+    def __init__(self, first_name, last_name):
+        super().__init__(first_name, last_name)
         self.experience = 0
 
     def learning(self, teacher, task_id):

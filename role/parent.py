@@ -1,10 +1,11 @@
 from role.person import Person
 from role.teacher import Teacher
 
-
 class Parent(Person):
-    def __init__(self, first_name, last_name, role):
-        super().__init__(first_name, last_name, role)
+    ROLE = "Parent"
+
+    def __init__(self, first_name, last_name):
+        super().__init__(first_name, last_name)
         self.child = []
 
     def add_child(self, data_child):
@@ -23,5 +24,5 @@ class Parent(Person):
         """
         if str(student_data) in self.child:
             student_experience = student_data.experience
-            print(student_experience)
-            return student_data.experience
+
+            return student_experience

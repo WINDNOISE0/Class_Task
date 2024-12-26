@@ -4,26 +4,32 @@ from faker import Faker
 class Person:
     faker = Faker()
 
-    def __init__(self, first_name, last_name, role):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.role = role
+    def __init__(self, first_name, last_name):
+        self._first_name = first_name
+        self._last_name = last_name
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self._first_name} {self._last_name}"
 
     @classmethod
-    def create_random_person(cls, role):
+    def create_random_person(cls):
         return cls(
             first_name=cls.faker.first_name(),
-            last_name=cls.faker.last_name(),
-            role=role,
+            last_name=cls.faker.last_name()
         )
 
-    @classmethod
-    def create_simple_person(cls, fits_name, last_name, role):
-        return cls(first_name=fits_name, last_name=last_name, role=role)
+    @property
+    def first_name(self):
+        return self._first_name
 
-    def update_person_data(self, first_name, last_name):
-        self.first_name = first_name
-        self.last_name = last_name
+    @first_name.setter
+    def first_name(self, new_first_name):
+        self._first_name=new_first_name
+
+    @property
+    def last_name(self):
+        return self._last_name
+
+    @last_name.setter
+    def last_name(self, new_last_name):
+        self._last_name=new_last_name
