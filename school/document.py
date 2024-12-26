@@ -1,27 +1,25 @@
 import json
 from datetime import datetime
-
 from faker import Faker
 
 
 class Document:
+    DATA_FORMAT = "%d.%m.%Y"
     faker = Faker()
 
     def __init__(
             self,
             task_template: str,
-            minimum_grade: int,
-            maximum_grade: int,
             journal_place: str,
-            data_format: str,
+            minimum_grade: int = 1,
+            maximum_grade: int = 5
     ):
         self.task_template = task_template
         self.minimum_grade = minimum_grade
         self.maximum_grade = maximum_grade
         self.journal_place = journal_place
-        self.data_format = data_format
 
-    def validate_created_journal(self):
+    def get_journal(self):
         try:
             with open(self.journal_place, "r") as file:
                 journal_file = json.load(file)
@@ -32,21 +30,21 @@ class Document:
 
     def get_number_task(self):
         """Генерирует рандомный номер таски формата TASK_TEMPLATE"""
-
-        task_number = Document.faker.bothify(text=self.task_template)
+        task_number = self.faker.bothify(text=self.task_template)
         return task_number
 
-    def get_now_date(self):
+    @staticmethod
+    def get_now_date():
         """Получить текущую дату"""
-
-        now_date = datetime.now().strftime(self.data_format)
+        now_date = datetime.now().strftime(Document.DATA_FORMAT)
         return now_date
 
     def input_grade_main_journal(self, grade, student_data, task_id):
         """Добавляет в общий журнал оценку студента за выполненную задачу"""
 
-        journal_file = self.validate_created_journal()
-        now_date = self.get_now_date()
+        journal_file = self.get_journal()
+        now_date = self.get_now_date() # вроде не создается у экземпляра, но по цепочки через экземпляр находит у класса
+        # корректно ли вызывать через экземпляр?
 
         new_dct = {
             "task": task_id,
@@ -63,7 +61,7 @@ class Document:
 
     def get_student_grades_journal(self, student_data):
         student_grades = {student_data: []}
-        journal_file = self.validate_created_journal()
+        journal_file = self.get_journal()
 
         for data in journal_file["data"]:
 
